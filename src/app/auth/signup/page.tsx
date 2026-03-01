@@ -199,7 +199,7 @@ export default function SignupPage() {
             }}
             onMouseOver={(e) => {
               if (!loading) {
-                const target = e.target as HTMLButtonElement;
+                const target = e.currentTarget as HTMLButtonElement;
                 target.style.background = 'linear-gradient(135deg, #4338ca 0%, #6d28d9 100%)';
                 target.style.transform = 'translateY(-1px)';
                 target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
@@ -207,7 +207,7 @@ export default function SignupPage() {
             }}
             onMouseOut={(e) => {
               if (!loading) {
-                const target = e.target as HTMLButtonElement;
+                const target = e.currentTarget as HTMLButtonElement;
                 target.style.background = 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)';
                 target.style.transform = 'translateY(0)';
                 target.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
@@ -238,11 +238,11 @@ export default function SignupPage() {
                 fontWeight: '500'
               }}
               onMouseOver={(e) => {
-                const target = e.target as HTMLAnchorElement;
+                const target = e.currentTarget as HTMLAnchorElement;
                 target.style.textDecoration = 'underline';
               }}
               onMouseOut={(e) => {
-                const target = e.target as HTMLAnchorElement;
+                const target = e.currentTarget as HTMLAnchorElement;
                 target.style.textDecoration = 'none';
               }}
             >

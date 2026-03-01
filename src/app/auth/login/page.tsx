@@ -113,12 +113,14 @@ export default function LoginPage() {
                 boxSizing: 'border-box'
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = '#4f46e5';
-                e.target.style.boxShadow = '0 0 0 3px rgba(79, 70, 229, 0.1)';
+                const target = e.target as HTMLInputElement;
+                target.style.borderColor = '#4f46e5';
+                target.style.boxShadow = '0 0 0 3px rgba(79, 70, 229, 0.1)';
               }}
               onBlur={(e) => {
-                e.target.style.borderColor = '#d1d5db';
-                e.target.style.boxShadow = 'none';
+                const target = e.target as HTMLInputElement;
+                target.style.borderColor = '#d1d5db';
+                target.style.boxShadow = 'none';
               }}
             />
           </div>
@@ -148,12 +150,14 @@ export default function LoginPage() {
                 boxSizing: 'border-box'
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = '#4f46e5';
-                e.target.style.boxShadow = '0 0 0 3px rgba(79, 70, 229, 0.1)';
+                const target = e.target as HTMLInputElement;
+                target.style.borderColor = '#4f46e5';
+                target.style.boxShadow = '0 0 0 3px rgba(79, 70, 229, 0.1)';
               }}
               onBlur={(e) => {
-                e.target.style.borderColor = '#d1d5db';
-                e.target.style.boxShadow = 'none';
+                const target = e.target as HTMLInputElement;
+                target.style.borderColor = '#d1d5db';
+                target.style.boxShadow = 'none';
               }}
             />
           </div>
@@ -189,16 +193,18 @@ export default function LoginPage() {
             }}
             onMouseOver={(e) => {
               if (!loading) {
-                e.target.style.background = 'linear-gradient(135deg, #4338ca 0%, #6d28d9 100%)';
-                e.target.style.transform = 'translateY(-1px)';
-                e.target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+                const target = e.currentTarget as HTMLButtonElement;
+                target.style.background = 'linear-gradient(135deg, #4338ca 0%, #6d28d9 100%)';
+                target.style.transform = 'translateY(-1px)';
+                target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
               }
             }}
             onMouseOut={(e) => {
               if (!loading) {
-                e.target.style.background = 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)';
-                e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+                const target = e.currentTarget as HTMLButtonElement;
+                target.style.background = 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)';
+                target.style.transform = 'translateY(0)';
+                target.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
               }
             }}
           >
@@ -226,10 +232,12 @@ export default function LoginPage() {
                 fontWeight: '500'
               }}
               onMouseOver={(e) => {
-                e.target.style.textDecoration = 'underline';
+                const target = e.currentTarget as HTMLAnchorElement;
+                target.style.textDecoration = 'underline';
               }}
               onMouseOut={(e) => {
-                e.target.style.textDecoration = 'none';
+                const target = e.currentTarget as HTMLAnchorElement;
+                target.style.textDecoration = 'none';
               }}
             >
               Create an account
