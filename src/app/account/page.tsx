@@ -27,12 +27,15 @@ export default async function AccountPage() {
               <p className="text-gray-900 font-semibold">{isPro ? '⭐ Pro Plan' : 'Free Plan'}</p>
               <p className="text-gray-500 text-sm">{isPro ? `Status: ${subscription?.status}` : 'Limited to 1 resume generation'}</p>
             </div>
-            {isPro && subscription?.stripe_customer_id ? (
-              <form action="/api/stripe/portal" method="POST">
-                <button type="submit" className="border border-indigo-600 text-indigo-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-50 transition">
-                  Manage Billing
-                </button>
-              </form>
+            {isPro ? (
+              <a 
+                href="https://app.lemonsqueezy.com" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-indigo-600 text-indigo-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-50 transition"
+              >
+                Manage Billing
+              </a>
             ) : (
               <Link href="/pricing" className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">
                 Upgrade to Pro

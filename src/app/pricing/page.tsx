@@ -77,7 +77,7 @@ export default async function PricingPage() {
 function CheckoutButton() {
   'use client';
   return (
-    <form action="/api/stripe/checkout" method="POST">
+    <form action="/api/checkout" method="POST">
       <button type="submit" className="w-full bg-white text-indigo-600 font-bold py-2 rounded-lg hover:bg-indigo-50 transition">
         Upgrade to Pro
       </button>

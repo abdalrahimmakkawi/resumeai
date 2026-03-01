@@ -13,9 +13,11 @@ create table if not exists resumes (
 -- Subscriptions table
 create table if not exists subscriptions (
   user_id uuid references auth.users(id) on delete cascade primary key,
-  stripe_customer_id text,
+  lemonsqueezy_customer_id text,
+  lemonsqueezy_order_id text,
   plan text default 'free',
-  status text default 'active'
+  status text default 'active',
+  updated_at timestamp with time zone default now()
 );
 
 -- RLS
