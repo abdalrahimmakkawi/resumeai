@@ -1,14 +1,45 @@
-import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
+'use client';
+import { createClient } from '@/lib/supabase/client';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default async function AccountPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/auth/login?redirectTo=/account');
+export default function AccountPage() {
+  const [user, setUser] = useState<any>(null);
+  const [subscription, setSubscription] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const supabase = createClient();
+  const router = useRouter();
 
-  const { data: subscription } = await supabase.from('subscriptions').select('*').eq('user_id', user.id).single();
+  useEffect(() => {
+    const load = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { 
+        router.push('/auth/login?redirectTo=/account'); 
+        return; 
+      }
+      setUser(user);
+      const { data: sub } = await supabase.from('subscriptions').select('*').eq('user_id', user.id).single();
+      setSubscription(sub);
+      setLoading(false);
+    };
+    load();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push('/');
+  };
+
   const isPro = subscription?.plan === 'pro' && subscription?.status === 'active';
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-12 px-6">
+        <div className="max-w-2xl mx-auto text-center">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-6">
@@ -46,19 +77,12 @@ export default async function AccountPage() {
 
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h2 className="font-semibold text-gray-700 mb-4">Actions</h2>
-          <form action="/auth/signout" method="POST">
-            <button type="submit"
-              className="text-red-500 text-sm hover:underline"
-              onClick={async (e) => {
-                e.preventDefault();
-                const { createClient } = await import('@/lib/supabase/client');
-                const supabase = createClient();
-                await supabase.auth.signOut();
-                window.location.href = '/';
-              }}>
-              Log out
-            </button>
-          </form>
+          <button
+            onClick={handleLogout}
+            className="text-red-500 text-sm hover:underline"
+          >
+            Log out
+          </button>
         </div>
       </div>
     </div>

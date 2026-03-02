@@ -1,25 +1,63 @@
-import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
+'use client';
+import { createClient } from '@/lib/supabase/client';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default async function DashboardPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/auth/login?redirectTo=/dashboard');
+export default function DashboardPage() {
+  const [user, setUser] = useState<any>(null);
+  const [resumes, setResumes] = useState<any[]>([]);
+  const [subscription, setSubscription] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const supabase = createClient();
+  const router = useRouter();
 
-  const { data: resumes } = await supabase
-    .from('resumes')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false });
-
-  const { data: subscription } = await supabase
-    .from('subscriptions')
-    .select('*')
-    .eq('user_id', user.id)
-    .single();
+  useEffect(() => {
+    const load = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { 
+        router.push('/auth/login?redirectTo=/dashboard'); 
+        return; 
+      }
+      
+      setUser(user);
+      
+      const { data: resumesData } = await supabase
+        .from('resumes')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+      
+      setResumes(resumesData || []);
+      
+      const { data: sub } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
+      
+      setSubscription(sub);
+      setLoading(false);
+    };
+    
+    load();
+  }, []);
 
   const isPro = subscription?.plan === 'pro' && subscription?.status === 'active';
+
+  if (loading) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        background: '#f9fafb',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px', textAlign: 'center' }}>
+          Loading...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{
