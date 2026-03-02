@@ -68,11 +68,31 @@ export default function ResumeBuilderPage() {
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: '#f9fafb',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-    }}>
+    <>
+      {/* Print Stylesheet */}
+      <style jsx>{`
+        @media print {
+          body * {
+            visibility: hidden;
+          }
+          .resume-preview,
+          .resume-preview * {
+            visibility: visible;
+          }
+          .resume-preview {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+          }
+        }
+      `}</style>
+      
+      <div style={{
+        minHeight: '100vh',
+        background: '#f9fafb',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+      }}>
       {/* Header */}
       <div style={{
         background: 'white',
@@ -389,7 +409,7 @@ export default function ResumeBuilderPage() {
         </div>
 
         {/* Right Column - Resume Preview */}
-        <div>
+        <div className="resume-preview">
           {resume ? (
             <div style={{
               background: 'white',
@@ -699,34 +719,35 @@ export default function ResumeBuilderPage() {
                 >
                   {coverLoading ? 'Generating...' : '✉️ Generate Cover Letter'}
                 </button>
-                <Link
-                  href="/pricing"
+                <button
+                  onClick={() => window.print()}
                   style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
                     padding: '12px 20px',
-                    background: 'white',
-                    color: '#4f46e5',
-                    textDecoration: 'none',
+                    background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
+                    color: 'white',
+                    border: 'none',
                     borderRadius: '8px',
                     fontSize: '14px',
                     fontWeight: '600',
-                    border: '1px solid #d1d5db',
-                    transition: 'all 0.2s'
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
                   }}
                   onMouseOver={(e) => {
-                    const target = e.target as HTMLAnchorElement;
-                    target.style.background = '#f9fafb';
-                    target.style.borderColor = '#4f46e5';
+                    const target = e.target as HTMLButtonElement;
+                    target.style.background = 'linear-gradient(135deg, #4338ca 0%, #6d28d9 100%)';
+                    target.style.transform = 'translateY(-1px)';
+                    target.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.15)';
                   }}
                   onMouseOut={(e) => {
-                    const target = e.target as HTMLAnchorElement;
-                    target.style.background = 'white';
-                    target.style.borderColor = '#d1d5db';
+                    const target = e.target as HTMLButtonElement;
+                    target.style.background = 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)';
+                    target.style.transform = 'translateY(0)';
+                    target.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
                   }}
                 >
-                  📄 Download PDF (Pro)
-                </Link>
+                  �️ Download PDF
+                </button>
               </div>
             </div>
           ) : (
